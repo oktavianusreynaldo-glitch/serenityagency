@@ -75,7 +75,7 @@
     <p>We’re always looking for confident, sincere, and passionate individuals to represent brands with grace and authenticity.<br>
     Fill out the form below to join our growing family of SPG & SPB talents.</p>
 
-    <form class="join-form" action="https://formspree.io/f/your-form-id" method="POST" enctype="multipart/form-data">
+    <form id="serenityForm" enctype="multipart/form-data">
       <div class="form-group">
         <label>Full Name</label>
         <input type="text" name="name" placeholder="Your full name" required>
@@ -146,13 +146,13 @@
     <p>© 2025 Serenity Agency — Crafted with sincerity.</p>
   </footer>
 
-  <!-- Dependent Dropdown Script -->
+  <!-- Dependent Dropdown + Submit Script -->
   <script>
+    // === LOAD PROVINCE / CITY / DISTRICT ===
     async function loadProvinces() {
       const res = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
       const provinces = await res.json();
       const provinceSelect = document.getElementById('province');
-
       provinces.forEach(prov => {
         const opt = document.createElement('option');
         opt.value = prov.id;
@@ -196,6 +196,36 @@
     });
 
     document.addEventListener('DOMContentLoaded', loadProvinces);
+
+    // === SUBMIT FORM TO GOOGLE SCRIPT ===
+    document.getElementById("serenityForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const btn = form.querySelector(".submit-btn");
+
+      btn.disabled = true;
+      btn.innerText = "Submitting...";
+
+      // Ganti URL ini dengan Google Apps Script Web App URL kamu
+      const scriptURL = "https://script.google.com/macros/s/AKfycby_ymVcshSOJr_DmpMgpxIbuAEz3kUteKxashZSQHtUCervMUxBJafjLmN_ukAIz4YmqQ/exec";
+
+      try {
+        const response = await fetch(scriptURL, { method: "POST", body: formData });
+        const result = await response.text();
+        if (result.includes("Success")) {
+          alert("Your application has been submitted successfully!");
+          form.reset();
+        } else {
+          alert("Error submitting form: " + result);
+        }
+      } catch (err) {
+        alert("Submission failed: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Submit Application";
+      }
+    });
   </script>
 
 </body>
