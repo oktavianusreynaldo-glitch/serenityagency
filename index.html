@@ -95,8 +95,34 @@
         <label>Gender</label>
         <select name="gender" required>
           <option value="">Select</option>
-          <option value="SPG">Female (SPG)</option>
-          <option value="SPB">Male (SPB)</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+
+      <div class="form-group full">
+        <label>Address</label>
+        <input type="text" name="address" placeholder="Your full address" required>
+      </div>
+
+      <div class="form-group">
+        <label>Province (Provinsi)</label>
+        <select id="province" name="province" required>
+          <option value="">Select Province</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>City / Regency (Kota / Kabupaten)</label>
+        <select id="city" name="city" required>
+          <option value="">Select City / Regency</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>District (Kecamatan)</label>
+        <select id="district" name="district" required>
+          <option value="">Select District</option>
         </select>
       </div>
 
@@ -119,6 +145,58 @@
   <footer>
     <p>© 2025 Serenity Agency — Crafted with sincerity.</p>
   </footer>
+
+  <!-- Dependent Dropdown Script -->
+  <script>
+    async function loadProvinces() {
+      const res = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+      const provinces = await res.json();
+      const provinceSelect = document.getElementById('province');
+
+      provinces.forEach(prov => {
+        const opt = document.createElement('option');
+        opt.value = prov.id;
+        opt.textContent = prov.name;
+        provinceSelect.appendChild(opt);
+      });
+    }
+
+    document.getElementById('province').addEventListener('change', async function() {
+      const provinceId = this.value;
+      const citySelect = document.getElementById('city');
+      const districtSelect = document.getElementById('district');
+      citySelect.innerHTML = '<option value="">Select City / Regency</option>';
+      districtSelect.innerHTML = '<option value="">Select District</option>';
+      if (!provinceId) return;
+
+      const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
+      const cities = await res.json();
+      cities.forEach(city => {
+        const opt = document.createElement('option');
+        opt.value = city.id;
+        opt.textContent = city.name;
+        citySelect.appendChild(opt);
+      });
+    });
+
+    document.getElementById('city').addEventListener('change', async function() {
+      const cityId = this.value;
+      const districtSelect = document.getElementById('district');
+      districtSelect.innerHTML = '<option value="">Select District</option>';
+      if (!cityId) return;
+
+      const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${cityId}.json`);
+      const districts = await res.json();
+      districts.forEach(district => {
+        const opt = document.createElement('option');
+        opt.value = district.id;
+        opt.textContent = district.name;
+        districtSelect.appendChild(opt);
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', loadProvinces);
+  </script>
 
 </body>
 </html>
