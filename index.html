@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serenity Agency</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+    body {
+      background-color: #f9fafb;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 8%;
+    }
+
+    header h1 {
+      font-size: 1.5em;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #1e293b;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover { color: #1e3a8a; }
+
+    .banner {
+      background: url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    .banner::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+    }
+
+    .banner h2 {
+      position: relative;
+      font-size: 3em;
+      font-weight: 600;
+      z-index: 1;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+
+    section h3 {
+      color: #1e3a8a;
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    section p {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      color: #475569;
+    }
+
+    .values, .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover { transform: translateY(-5px); }
+
+    footer {
+      background: #1e3a8a;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    footer a {
+      color: #facc15;
+      text-decoration: none;
+    }
+
+    /* Floating contact buttons */
+    .contact-widget {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 999;
+    }
+
+    .contact-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 22px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .contact-btn:hover { transform: scale(1.1); }
+    .whatsapp { background: #25D366; }
+    .instagram { background: radial-gradient(circle at 30% 30%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    .email { background: #1e293b; }
+
+    @media (max-width: 768px) {
+      header { flex-direction: column; align-items: flex-start; }
+      nav a { margin-left: 0; display: inline-block; margin: 5px 10px 0 0; }
+      .banner h2 { font-size: 2em; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Serenity Agency</h1>
+    <nav>
+      <a href="#home">Homepage</a>
+      <a href="#meet">Meet Serenity</a>
+      <a href="#values">Our Values</a>
+      <a href="#services">What We Do</a>
+      <a href="#connect">Connect With Us</a>
+    </nav>
+  </header>
+
+  <section id="home" class="banner">
+    <h2>Where Sincerity Creates Impact</h2>
+  </section>
+
+  <section id="meet">
+    <h3>Meet Serenity</h3>
+    <p>Serenity Agency is a new-generation SPG & SPB agency built on the belief that genuine human connection is the most powerful form of brand communication. We bring calm confidence and authentic energy to every campaign we handle — creating meaningful brand experiences that last.</p>
+  </section>
+
+  <section id="values">
+    <h3>Our Values</h3>
+    <div class="values">
+      <div class="card"><h4>Sincere</h4><p>Authenticity and honesty define every interaction we create.</p></div>
+      <div class="card"><h4>Professional</h4><p>Excellence in discipline, appearance, and communication.</p></div>
+      <div class="card"><h4>Creative</h4><p>We turn ideas into experiences that capture attention and emotion.</p></div>
+      <div class="card"><h4>Integrity</h4><p>We uphold transparency and reliability in every collaboration.</p></div>
+      <div class="card"><h4>Empowerment</h4><p>We train and inspire our talents to shine with confidence and grace.</p></div>
+    </div>
+  </section>
+
+  <section id="services">
+    <h3>What We Do</h3>
+    <div class="services">
+      <div class="card"><h4>Brand Ambassadors</h4><p>Professional SPG & SPB who represent your brand with sincerity and excellence.</p></div>
+      <div class="card"><h4>Product Activation</h4><p>Engaging campaigns that connect directly with your target audience.</p></div>
+      <div class="card"><h4>Event Support</h4><p>Talents that bring confidence and charm to exhibitions, events, and promotions.</p></div>
+      <div class="card"><h4>Merchandising</h4><p>Enhancing visibility and ensuring your products shine at every touchpoint.</p></div>
+    </div>
+  </section>
+
+  <section id="connect">
+    <h3>Connect With Us</h3>
+    <p>We’d love to bring your brand to life with sincerity and creativity.<br>Reach us anytime via WhatsApp, Instagram, or Email.</p>
+  </section>
+
+  <footer>
+    <p>© 2025 Serenity Agency — Crafted with sincerity.</p>
+  </footer>
+
+  <!-- Floating Contact Buttons -->
+  <div class="contact-widget">
+    <a href="https://wa.me/6281234567890?text=Hi%20Serenity%20Agency" target="_blank" class="contact-btn whatsapp" title="WhatsApp">💬</a>
+    <a href="https://instagram.com/your_instagram" target="_blank" class="contact-btn instagram" title="Instagram">📸</a>
+    <a href="mailto:hello@serenityagency.com" class="contact-btn email" title="Email">✉️</a>
+  </div>
+
+</body>
+</html>
