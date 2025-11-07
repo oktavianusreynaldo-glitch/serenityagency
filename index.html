@@ -138,6 +138,7 @@
       </div>
 
       <button type="submit" class="submit-btn">Submit Application</button>
+      <p id="statusMsg" style="margin-top:10px;"></p>
     </form>
   </section>
 
@@ -159,6 +160,7 @@
         sel.appendChild(opt);
       });
     }
+
     document.getElementById('province').addEventListener('change', async e => {
       const id = e.target.value;
       const citySel = document.getElementById('city');
@@ -175,6 +177,7 @@
         citySel.appendChild(opt);
       });
     });
+
     document.getElementById('city').addEventListener('change', async e => {
       const id = e.target.value;
       const distSel = document.getElementById('district');
@@ -189,15 +192,18 @@
         distSel.appendChild(opt);
       });
     });
+
     document.addEventListener('DOMContentLoaded', loadProvinces);
 
-    // --- Submit form to Google Apps Script ---
+    // --- Submit form ---
     document.getElementById("serenityForm").addEventListener("submit", async function(e) {
       e.preventDefault();
       const form = e.target;
       const btn = form.querySelector(".submit-btn");
+      const statusMsg = document.getElementById("statusMsg");
       btn.disabled = true;
       btn.innerText = "Submitting...";
+      statusMsg.textContent = "";
 
       const fileInput = form.querySelector('input[name="photo"]');
       const file = fileInput.files[0];
@@ -206,27 +212,39 @@
       reader.onload = async function(evt) {
         const base64 = evt.target.result.split(',')[1];
 
-        const formData = new FormData();
-        new FormData(form).forEach((v, k) => {
-          if (k !== 'photo') formData.append(k, v);
-        });
+        const provinceSel = document.getElementById('province');
+        const citySel = document.getElementById('city');
+        const districtSel = document.getElementById('district');
+
+        const provinceName = provinceSel.options[provinceSel.selectedIndex].text;
+        const cityName = citySel.options[citySel.selectedIndex].text;
+        const districtName = districtSel.options[districtSel.selectedIndex].text;
+
+        const formData = new FormData(form);
+        formData.delete("photo");
         formData.append('photo_base64', base64);
         formData.append('photo_name', file.name);
         formData.append('photo_type', file.type);
+        formData.set('province', provinceName);
+        formData.set('city', cityName);
+        formData.set('district', districtName);
 
-        const scriptURL = "https://script.google.com/macros/s/AKfycbyRwicuU6RQ72GKvFW_D9gDujR6W-DoNxd2Ily_JxC0O25Ulvq7EwfXkBBwJUwJFBpsiw/exec"; // <-- replace this
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyRwicuU6RQ72GKvFW_D9gDujR6W-DoNxd2Ily_JxC0O25Ulvq7EwfXkBBwJUwJFBpsiw/exec";
 
         try {
           const res = await fetch(scriptURL, { method: "POST", body: formData });
           const text = await res.text();
           if (text.includes("Success")) {
-            alert("Application submitted successfully!");
+            statusMsg.style.color = "green";
+            statusMsg.textContent = "Application submitted successfully!";
             form.reset();
           } else {
-            alert("Error: " + text);
+            statusMsg.style.color = "red";
+            statusMsg.textContent = "Error: " + text;
           }
         } catch (err) {
-          alert("Submission failed: " + err.message);
+          statusMsg.style.color = "red";
+          statusMsg.textContent = "Submission failed: " + err.message;
         } finally {
           btn.disabled = false;
           btn.innerText = "Submit Application";
