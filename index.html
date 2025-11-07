@@ -214,7 +214,7 @@
         formData.append('photo_name', file.name);
         formData.append('photo_type', file.type);
 
-        const scriptURL = "https://script.google.com/macros/s/AKfycbx2vLR0Y-0Kkvgt-epONalLFKhGMWSG4noAErshccWGImSC-6-Ru0b0e5s-nKzcwTy91w/exec"; // <-- replace this
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyRwicuU6RQ72GKvFW_D9gDujR6W-DoNxd2Ily_JxC0O25Ulvq7EwfXkBBwJUwJFBpsiw/exec"; // <-- replace this
 
         try {
           const res = await fetch(scriptURL, { method: "POST", body: formData });
