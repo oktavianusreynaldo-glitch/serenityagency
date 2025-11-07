@@ -152,20 +152,8 @@ section p {
 }
 
 /* --- Contact Button Colors refined --- */
-.whatsapp {
-  background: linear-gradient(135deg, #25D366, #21b05f);
-}
-
-.instagram {
-  background: linear-gradient(135deg, #fd5949, #d6249f, #285AEB);
-  /* Tambah efek glow halus */
-  box-shadow: 0 4px 12px rgba(214,36,159,0.4);
-}
-
-.email {
-  background: linear-gradient(135deg, #2d3748, #1e293b);
-  box-shadow: 0 4px 12px rgba(30,41,59,0.4);
-}
+.whatsapp { background: #25D366; }
+.instagram, .email { background: #fff; }
 
 
 /* Ukuran dan proporsi ikon */
