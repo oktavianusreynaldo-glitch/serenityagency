@@ -78,17 +78,17 @@
     <form id="serenityForm" enctype="multipart/form-data">
       <div class="form-group">
         <label>Full Name</label>
-        <input type="text" name="name" placeholder="Your full name" required>
+        <input type="text" name="name" required>
       </div>
 
       <div class="form-group">
         <label>WhatsApp Number</label>
-        <input type="text" name="whatsapp" placeholder="e.g. +62..." required>
+        <input type="text" name="whatsapp" placeholder="+62..." required>
       </div>
 
       <div class="form-group">
         <label>Email</label>
-        <input type="email" name="email" placeholder="you@example.com" required>
+        <input type="email" name="email" required>
       </div>
 
       <div class="form-group">
@@ -102,25 +102,25 @@
 
       <div class="form-group full">
         <label>Address</label>
-        <input type="text" name="address" placeholder="Your full address" required>
+        <input type="text" name="address" required>
       </div>
 
       <div class="form-group">
-        <label>Province (Provinsi)</label>
+        <label>Province</label>
         <select id="province" name="province" required>
           <option value="">Select Province</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label>City / Regency (Kota / Kabupaten)</label>
+        <label>City / Regency</label>
         <select id="city" name="city" required>
           <option value="">Select City / Regency</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label>District (Kecamatan)</label>
+        <label>District</label>
         <select id="district" name="district" required>
           <option value="">Select District</option>
         </select>
@@ -128,7 +128,7 @@
 
       <div class="form-group full">
         <label>Experience / Short Description</label>
-        <textarea name="experience" rows="4" placeholder="Tell us a bit about your experience or why you'd like to join Serenity"></textarea>
+        <textarea name="experience" rows="4"></textarea>
       </div>
 
       <div class="form-group full">
@@ -141,92 +141,99 @@
     </form>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p>© 2025 Serenity Agency — Crafted with sincerity.</p>
   </footer>
 
-  <!-- Dependent Dropdown + Submit Script -->
+  <!-- === Scripts === -->
   <script>
-    // === LOAD PROVINCE / CITY / DISTRICT ===
+    // --- Dependent dropdowns ---
     async function loadProvinces() {
       const res = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
       const provinces = await res.json();
-      const provinceSelect = document.getElementById('province');
-      provinces.forEach(prov => {
+      const sel = document.getElementById('province');
+      provinces.forEach(p => {
         const opt = document.createElement('option');
-        opt.value = prov.id;
-        opt.textContent = prov.name;
-        provinceSelect.appendChild(opt);
+        opt.value = p.id;
+        opt.textContent = p.name;
+        sel.appendChild(opt);
       });
     }
-
-    document.getElementById('province').addEventListener('change', async function() {
-      const provinceId = this.value;
-      const citySelect = document.getElementById('city');
-      const districtSelect = document.getElementById('district');
-      citySelect.innerHTML = '<option value="">Select City / Regency</option>';
-      districtSelect.innerHTML = '<option value="">Select District</option>';
-      if (!provinceId) return;
-
-      const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
-      const cities = await res.json();
-      cities.forEach(city => {
+    document.getElementById('province').addEventListener('change', async e => {
+      const id = e.target.value;
+      const citySel = document.getElementById('city');
+      const distSel = document.getElementById('district');
+      citySel.innerHTML = '<option value="">Select City / Regency</option>';
+      distSel.innerHTML = '<option value="">Select District</option>';
+      if (!id) return;
+      const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${id}.json`);
+      const data = await res.json();
+      data.forEach(c => {
         const opt = document.createElement('option');
-        opt.value = city.id;
-        opt.textContent = city.name;
-        citySelect.appendChild(opt);
+        opt.value = c.id;
+        opt.textContent = c.name;
+        citySel.appendChild(opt);
       });
     });
-
-    document.getElementById('city').addEventListener('change', async function() {
-      const cityId = this.value;
-      const districtSelect = document.getElementById('district');
-      districtSelect.innerHTML = '<option value="">Select District</option>';
-      if (!cityId) return;
-
-      const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${cityId}.json`);
-      const districts = await res.json();
-      districts.forEach(district => {
+    document.getElementById('city').addEventListener('change', async e => {
+      const id = e.target.value;
+      const distSel = document.getElementById('district');
+      distSel.innerHTML = '<option value="">Select District</option>';
+      if (!id) return;
+      const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${id}.json`);
+      const data = await res.json();
+      data.forEach(d => {
         const opt = document.createElement('option');
-        opt.value = district.id;
-        opt.textContent = district.name;
-        districtSelect.appendChild(opt);
+        opt.value = d.id;
+        opt.textContent = d.name;
+        distSel.appendChild(opt);
       });
     });
-
     document.addEventListener('DOMContentLoaded', loadProvinces);
 
-    // === SUBMIT FORM TO GOOGLE SCRIPT ===
+    // --- Submit form to Google Apps Script ---
     document.getElementById("serenityForm").addEventListener("submit", async function(e) {
       e.preventDefault();
       const form = e.target;
-      const formData = new FormData(form);
       const btn = form.querySelector(".submit-btn");
-
       btn.disabled = true;
       btn.innerText = "Submitting...";
 
-      // Ganti URL ini dengan Google Apps Script Web App URL kamu
-      const scriptURL = "https://script.google.com/macros/s/AKfycby_ymVcshSOJr_DmpMgpxIbuAEz3kUteKxashZSQHtUCervMUxBJafjLmN_ukAIz4YmqQ/exec";
+      const fileInput = form.querySelector('input[name="photo"]');
+      const file = fileInput.files[0];
 
-      try {
-        const response = await fetch(scriptURL, { method: "POST", body: formData });
-        const result = await response.text();
-        if (result.includes("Success")) {
-          alert("Your application has been submitted successfully!");
-          form.reset();
-        } else {
-          alert("Error submitting form: " + result);
+      const reader = new FileReader();
+      reader.onload = async function(evt) {
+        const base64 = evt.target.result.split(',')[1];
+
+        const formData = new FormData();
+        new FormData(form).forEach((v, k) => {
+          if (k !== 'photo') formData.append(k, v);
+        });
+        formData.append('photo_base64', base64);
+        formData.append('photo_name', file.name);
+        formData.append('photo_type', file.type);
+
+        const scriptURL = "https://script.google.com/macros/s/AKfycbx2vLR0Y-0Kkvgt-epONalLFKhGMWSG4noAErshccWGImSC-6-Ru0b0e5s-nKzcwTy91w/exec"; // <-- replace this
+
+        try {
+          const res = await fetch(scriptURL, { method: "POST", body: formData });
+          const text = await res.text();
+          if (text.includes("Success")) {
+            alert("Application submitted successfully!");
+            form.reset();
+          } else {
+            alert("Error: " + text);
+          }
+        } catch (err) {
+          alert("Submission failed: " + err.message);
+        } finally {
+          btn.disabled = false;
+          btn.innerText = "Submit Application";
         }
-      } catch (err) {
-        alert("Submission failed: " + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.innerText = "Submit Application";
-      }
+      };
+      reader.readAsDataURL(file);
     });
   </script>
-
 </body>
 </html>
