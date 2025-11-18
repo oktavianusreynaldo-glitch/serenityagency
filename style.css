@@ -284,3 +284,21 @@ footer a {
     height: 70%;
   }
 }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: white;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 45px;      /* atur sesuai kebutuhan */
+  width: auto;
+}
+
