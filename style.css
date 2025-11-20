@@ -27,14 +27,13 @@ header {
   padding: 12px 6%;
 }
 
-/* LOGO */
 .logo-container {
   display: flex;
   align-items: center;
 }
 
 .logo-img {
-  height: 55px;          /* kecilkan logo di sini */
+  height: 55px;
   width: auto;
   object-fit: contain;
 }
@@ -97,6 +96,19 @@ section p {
   max-width: 800px;
   margin: 0 auto;
   color: #475569;
+}
+
+/* ---------- Meet Serenity Big Logo ---------- */
+.meet-logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.meet-logo {
+  width: 140px;       /* ukuran lebih besar */
+  height: auto;
+  opacity: 0.95;
 }
 
 /* ---------- Cards ---------- */
@@ -167,5 +179,9 @@ footer {
 
   .logo-img {
     height: 45px;
+  }
+
+  .meet-logo {
+    width: 120px;
   }
 }
