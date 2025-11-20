@@ -27,11 +27,6 @@ header {
   padding: 12px 6%;
 }
 
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
 .logo-img {
   height: 55px;
   width: auto;
@@ -87,7 +82,7 @@ section {
 section h3 {
   color: #1e3a8a;
   font-size: 2em;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-align: center;
 }
 
@@ -98,17 +93,17 @@ section p {
   color: #475569;
 }
 
-/* ---------- Meet Serenity Big Logo ---------- */
+/* ---------- Meet Serenity Logo ---------- */
 .meet-logo-wrapper {
+  width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 25px;
+  margin: 20px 0 30px;
 }
 
 .meet-logo {
-  width: 140px;       /* ukuran lebih besar */
-  height: auto;
-  opacity: 0.95;
+  width: 180px;
+  opacity: 0.9;
 }
 
 /* ---------- Cards ---------- */
@@ -126,12 +121,6 @@ section p {
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   text-align: center;
   transition: transform 0.2s ease;
-}
-
-.card h4 {
-  color: #1e3a8a;
-  margin-bottom: 10px;
-  font-size: 1.3em;
 }
 
 .card:hover {
@@ -158,8 +147,68 @@ section p {
 
 .icon-img {
   width: 65%;
-  height: 65%;
   object-fit: contain;
+}
+
+/* ---------- FORM LAYOUT ---------- */
+#join form {
+  margin-top: 40px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px 40px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group.full {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #1e3a8a;
+}
+
+.submit-btn {
+  background: #1e3a8a;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: block;
+  margin: 10px auto 0;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #142e70;
 }
 
 /* ---------- Footer ---------- */
@@ -177,11 +226,15 @@ footer {
     gap: 10px;
   }
 
-  .logo-img {
-    height: 45px;
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full {
+    grid-column: span 1;
   }
 
   .meet-logo {
-    width: 120px;
+    width: 150px;
   }
 }
